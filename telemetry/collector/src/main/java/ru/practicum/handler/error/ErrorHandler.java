@@ -1,4 +1,4 @@
-package ru.practicum.handler;
+package ru.practicum.handler.error;
 
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

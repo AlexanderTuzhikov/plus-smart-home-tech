@@ -1,7 +1,6 @@
 package ru.practicum.kafka;
 
 import jakarta.annotation.PreDestroy;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Properties;
 
 @Component
-public class TelemetryProducer {
+public class KafkaProducer {
     private Producer<String, Object> producer;
 
     @Value("${spring.kafka.bootstrap-servers}")
@@ -48,7 +47,7 @@ public class TelemetryProducer {
         config.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
         config.put(ProducerConfig.LINGER_MS_CONFIG, lingerMs);
 
-        producer = new KafkaProducer<>(config);
+        producer = new org.apache.kafka.clients.producer.KafkaProducer<>(config);
     }
 
     public void sendMessage(String topic, String key, Object value) {
