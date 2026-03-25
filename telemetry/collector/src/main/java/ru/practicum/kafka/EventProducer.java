@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Properties;
 
 @Component
-public class KafkaProducer {
+public class EventProducer {
     private Producer<String, Object> producer;
 
     @Value("${spring.kafka.bootstrap-servers}")
@@ -29,7 +29,6 @@ public class KafkaProducer {
     private Integer lingerMs;
 
 
-
     public Producer<String, Object> getProducer() {
         if (producer == null) {
             initProducer();
@@ -42,7 +41,7 @@ public class KafkaProducer {
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
-        config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,enableIdempotence);
+        config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, enableIdempotence);
         config.put(ProducerConfig.ACKS_CONFIG, acks);
         config.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
         config.put(ProducerConfig.LINGER_MS_CONFIG, lingerMs);
@@ -66,9 +65,7 @@ public class KafkaProducer {
     }
 
     @PreDestroy
-    public void close() {
-        if (producer != null) {
-            producer.close();
-        }
+    public void destroy() {
+        producer.close();
     }
 }
