@@ -3,7 +3,7 @@ package ru.practicum.handler.hub;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.practicum.kafka.KafkaProducer;
+import ru.practicum.kafka.EventProducer;
 import ru.yandex.practicum.grpc.telemetry.event.HubEventProto;
 import ru.yandex.practicum.kafka.telemetry.event.DeviceRemovedEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
@@ -15,7 +15,7 @@ import java.time.Instant;
 public class DeviceRemovedEventHandler implements HubEventHandler {
     @Value("${telemetry.hubs.v1.topic}")
     private String hubEventsTopic;
-    private final KafkaProducer producer;
+    private final EventProducer producer;
 
     @Override
     public HubEventProto.PayloadCase getMessageType() {
