@@ -28,7 +28,6 @@ public class EventProducer {
     @Value("${spring.kafka.producer.properties.linger.ms}")
     private Integer lingerMs;
 
-
     public Producer<String, Object> getProducer() {
         if (producer == null) {
             initProducer();

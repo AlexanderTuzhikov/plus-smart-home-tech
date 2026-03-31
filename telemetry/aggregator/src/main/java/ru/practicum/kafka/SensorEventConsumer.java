@@ -45,7 +45,6 @@ public class SensorEventConsumer {
         consumer = new org.apache.kafka.clients.consumer.KafkaConsumer<>(config);
     }
 
-
     @PreDestroy
     public void destroy() {
         consumer.close();
