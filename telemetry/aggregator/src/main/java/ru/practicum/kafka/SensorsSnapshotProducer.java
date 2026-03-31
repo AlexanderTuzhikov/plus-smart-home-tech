@@ -31,8 +31,6 @@ public class SensorsSnapshotProducer {
     @Value("${spring.kafka.producer.properties.linger.ms}")
     private Integer lingerMs;
 
-
-
     public Producer<String, SensorsSnapshotAvro> getProducer() {
         if (producer == null) {
             initProducer();

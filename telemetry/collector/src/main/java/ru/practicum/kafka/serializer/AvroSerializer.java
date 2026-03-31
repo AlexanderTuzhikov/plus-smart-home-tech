@@ -1,4 +1,4 @@
-package ru.practicum.kafka;
+package ru.practicum.kafka.serializer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.io.BinaryEncoder;
