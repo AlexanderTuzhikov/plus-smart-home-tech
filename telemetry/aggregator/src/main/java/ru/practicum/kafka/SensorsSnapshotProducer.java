@@ -1,6 +1,5 @@
 package ru.practicum.kafka;
 
-import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -63,10 +62,5 @@ public class SensorsSnapshotProducer {
                 log.error("Ошибка отправки: {}", exception.getMessage());
             }
         });
-    }
-
-    @PreDestroy
-    public void destroy() {
-        producer.close();
     }
 }
