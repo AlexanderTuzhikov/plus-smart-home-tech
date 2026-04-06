@@ -1,6 +1,5 @@
 package ru.practicum.kafka;
 
-import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -30,8 +29,6 @@ public class SensorsSnapshotProducer {
     private Integer batchSize;
     @Value("${spring.kafka.producer.properties.linger.ms}")
     private Integer lingerMs;
-
-
 
     public Producer<String, SensorsSnapshotAvro> getProducer() {
         if (producer == null) {
@@ -65,10 +62,5 @@ public class SensorsSnapshotProducer {
                 log.error("Ошибка отправки: {}", exception.getMessage());
             }
         });
-    }
-
-    @PreDestroy
-    public void destroy() {
-        producer.close();
     }
 }

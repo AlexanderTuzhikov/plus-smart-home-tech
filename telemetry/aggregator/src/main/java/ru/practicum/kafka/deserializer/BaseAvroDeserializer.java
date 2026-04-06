@@ -1,4 +1,4 @@
-package ru.practicum.kafka;
+package ru.practicum.kafka.deserializer;
 
 import org.apache.avro.Schema;
 import org.apache.avro.io.BinaryDecoder;
@@ -35,4 +35,3 @@ public class BaseAvroDeserializer<T extends SpecificRecordBase> implements Deser
         }
     }
 }
-

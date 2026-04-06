@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.practicum.kafka.SensorEventConsumer;
 import ru.practicum.kafka.SensorsSnapshotProducer;
-import ru.practicum.service.AggregationService;
+import ru.practicum.service.AggregationServiceImpl;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class AggregationStarter {
     private final SensorEventConsumer sensorEventConsumer;
     private final SensorsSnapshotProducer sensorsSnapshotProducer;
-    private final AggregationService service;
+    private final AggregationServiceImpl service;
 
     private final Duration CONSUME_ATTEMPT_TIMEOUT = Duration.ofMillis(1000);
     @Value("${telemetry.sensors.v1.topic}")
@@ -73,4 +73,3 @@ public class AggregationStarter {
         }
     }
 }
-

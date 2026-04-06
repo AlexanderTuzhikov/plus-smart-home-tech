@@ -1,6 +1,5 @@
 package ru.practicum.kafka;
 
-import jakarta.annotation.PreDestroy;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,11 +42,5 @@ public class SensorEventConsumer {
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffset);
 
         consumer = new org.apache.kafka.clients.consumer.KafkaConsumer<>(config);
-    }
-
-
-    @PreDestroy
-    public void destroy() {
-        consumer.close();
     }
 }
