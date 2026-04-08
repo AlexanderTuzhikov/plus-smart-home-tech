@@ -1,0 +1,55 @@
+server:
+  port: 8081
+
+grpc:
+  client:
+    hub-router:
+      address: static://localhost:59090
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/analyzer
+    username: analyzer
+    password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: always
+      separator: "@@"
+      schema-locations: classpath:schema.sql
+
+logging:
+  level:
+    web: debug
+    kafka: info
+    root: info
+
+analyzer:
+  kafka:
+    event-consumer-config:
+      bootstrap.servers: localhost:9092
+      group.id: analyzer-hub-group
+      key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value.deserializer: ru.yandex.practicum.kafka.deserializer.HubEventDeserializer
+      enable.auto.commit: false
+      auto.offset.reset: latest
+
+    snapshot-consumer-config:
+      bootstrap.servers: localhost:9092
+      group.id: analyzer-sensor-group
+      key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value.deserializer: ru.yandex.practicum.kafka.deserializer.SensorsSnapshotDeserializer
+      enable.auto.commit: false
+      auto.offset.reset: latest
+
+telemetry:
+  topics:
+    sensors: telemetry.sensors.v1
+    hubs: telemetry.hubs.v1
+    snapshots: telemetry.snapshots.v1

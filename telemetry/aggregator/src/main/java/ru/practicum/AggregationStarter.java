@@ -1,5 +1,6 @@
 package ru.practicum;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -7,10 +8,10 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.errors.WakeupException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.practicum.kafka.SensorEventConsumer;
-import ru.practicum.kafka.SensorsSnapshotProducer;
+import ru.practicum.kafka.EventConsumer;
+import ru.practicum.kafka.SnapshotProducer;
+import ru.practicum.kafka.TopicsConfig;
 import ru.practicum.service.AggregationServiceImpl;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
@@ -23,19 +24,24 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class AggregationStarter {
-    private final SensorEventConsumer sensorEventConsumer;
-    private final SensorsSnapshotProducer sensorsSnapshotProducer;
+    private final TopicsConfig topicsConfig;
+    private final EventConsumer eventConsumer;
+    private final SnapshotProducer snapshotProducer;
     private final AggregationServiceImpl service;
 
     private final Duration CONSUME_ATTEMPT_TIMEOUT = Duration.ofMillis(1000);
-    @Value("${telemetry.sensors.v1.topic}")
     private List<String> topics;
-    @Value("${telemetry.snapshots.v1.topic}")
     private String snapshotsTopic;
 
+    @PostConstruct
+    public void initTopics() {
+        topics = List.of(topicsConfig.getSensors());
+        snapshotsTopic = topicsConfig.getSnapshots();
+    }
+
     public void start() {
-        Consumer<String, SensorEventAvro> consumer = sensorEventConsumer.getConsumer();
-        Producer<String, SensorsSnapshotAvro> producer = sensorsSnapshotProducer.getProducer();
+        Consumer<String, SensorEventAvro> consumer = eventConsumer.getConsumer();
+        Producer<String, SensorsSnapshotAvro> producer = snapshotProducer.getProducer();
 
         try {
             Runtime.getRuntime().addShutdownHook(new Thread(consumer::wakeup));
@@ -52,7 +58,7 @@ public class AggregationStarter {
                     if (updatedSnapshot.isPresent()) {
                         SensorsSnapshotAvro sensorsSnapshotAvro = updatedSnapshot.get();
                         String key = sensorsSnapshotAvro.getHubId();
-                        sensorsSnapshotProducer.sendMessage(snapshotsTopic, key, sensorsSnapshotAvro);
+                        snapshotProducer.sendMessage(snapshotsTopic, key, sensorsSnapshotAvro);
                     }
                 }
                 consumer.commitSync();
