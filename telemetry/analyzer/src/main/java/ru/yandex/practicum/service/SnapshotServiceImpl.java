@@ -26,6 +26,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class SnapshotServiceImpl implements SnapshotService {
+
     @GrpcClient("hub-router")
     private HubRouterControllerGrpc.HubRouterControllerBlockingStub hubRouterClient;
     private final ScenarioRepository scenarioRepository;
@@ -52,7 +53,7 @@ public class SnapshotServiceImpl implements SnapshotService {
                     scenario.getActions().size());
 
             if (checkScenarioConditions(scenario, sensorsSnapshotAvro)) {
-                executeScenarioActions(scenario, sensorsSnapshotAvro);
+                executeScenarioActions(scenario);
             } else {
                 log.debug("Scenario conditions not met: {}", scenario.getName());
             }
@@ -148,7 +149,7 @@ public class SnapshotServiceImpl implements SnapshotService {
         };
     }
 
-    private void executeScenarioActions(Scenario scenario, SensorsSnapshotAvro snapshot) {
+    private void executeScenarioActions(Scenario scenario) {
         log.info("Выполнение сценария:: hubId={}, scenario={}", scenario.getHubId(), scenario.getName());
 
         if (scenario.getActions().isEmpty()) {

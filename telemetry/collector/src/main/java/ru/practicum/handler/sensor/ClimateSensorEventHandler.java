@@ -1,9 +1,10 @@
 package ru.practicum.handler.sensor;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.practicum.kafka.EventProducer;
+import ru.practicum.kafka.TopicsConfig;
 import ru.yandex.practicum.grpc.telemetry.event.SensorEventProto;
 import ru.yandex.practicum.kafka.telemetry.event.ClimateSensorAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
@@ -13,9 +14,14 @@ import java.time.Instant;
 @Component
 @RequiredArgsConstructor
 public class ClimateSensorEventHandler implements SensorEventHandler {
-    @Value("${telemetry.sensors.v1.topic}")
-    private String sensorEventsTopic;
+    private final TopicsConfig topicsConfig;
     private final EventProducer producer;
+    private String sensorEventsTopic;
+
+    @PostConstruct
+    public void initTopic() {
+        sensorEventsTopic = topicsConfig.getSensors();
+    }
 
     @Override
     public SensorEventProto.PayloadCase getMessageType() {
