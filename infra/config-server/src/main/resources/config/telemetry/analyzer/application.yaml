@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 0
 
 grpc:
   client:
@@ -11,24 +11,21 @@ grpc:
 
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/analyzer
-    username: analyzer
+    url: jdbc:postgresql://localhost:5432/smart_home
+    username: dbuser
     password: 12345
+    driver-class-name: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   sql:
     init:
       mode: always
-      separator: "@@"
-      schema-locations: classpath:schema.sql
-
-logging:
-  level:
-    web: debug
-    kafka: info
-    root: info
 
 analyzer:
   kafka:
