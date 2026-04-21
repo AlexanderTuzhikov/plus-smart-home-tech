@@ -1,0 +1,28 @@
+server:
+  port: 0
+
+grpc:
+  server:
+    port: 59091
+
+logging:
+  level:
+    web: debug
+    kafka: info
+    root: info
+
+collector:
+  kafka:
+    event-producer-config:
+      bootstrap.servers: localhost:9092
+      key.serializer: org.apache.kafka.common.serialization.StringSerializer
+      value.serializer: ru.practicum.kafka.serializer.AvroSerializer
+      enable.idempotence: true
+      acks: all
+      batch.size: 16384
+      linger.ms: 5
+
+telemetry:
+  topics:
+    sensors: telemetry.sensors.v1
+    hubs: telemetry.hubs.v1

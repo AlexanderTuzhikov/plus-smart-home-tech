@@ -1,0 +1,33 @@
+server:
+  port: 0
+
+logging:
+  level:
+    web: debug
+    kafka: info
+    root: info
+
+aggregator:
+  kafka:
+    consumer-config:
+      bootstrap.servers: localhost:9092
+      key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value.deserializer: ru.practicum.kafka.deserializer.SensorEventDeserializer
+      group.id: aggregator-group
+      enable.auto.commit: false
+      auto.offset.reset: latest
+
+    producer-config:
+      bootstrap.servers: localhost:9092
+      key.serializer: org.apache.kafka.common.serialization.StringSerializer
+      value.serializer: ru.practicum.kafka.serializer.AvroSerializer
+      enable.idempotence: true
+      acks: all
+      batch.size: 16384
+      linger.ms: 5
+
+telemetry:
+  topics:
+    sensors: telemetry.sensors.v1
+    hubs: telemetry.hubs.v1
+    snapshots: telemetry.snapshots.v1
