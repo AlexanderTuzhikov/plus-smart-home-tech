@@ -27,7 +27,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
 
     @Override
     @Transactional
-    public ProductDto createProduct(ProductDto productDto) {
+    public ProductDto putProduct(ProductDto productDto) {
         log.info("Запрос на добавление нового продукта Product: {}", productDto);
         UUID productId = productDto.getProductId();
 
@@ -44,7 +44,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
 
     @Override
     @Transactional
-    public ProductDto updateProduct(ProductDto productDto) {
+    public ProductDto postUpdateProduct(ProductDto productDto) {
         log.info("Запрос на обновление продукта с Id: {}", productDto.getProductId());
         UUID productId = productDto.getProductId();
         checkIdExistsOrThrow(productId);
@@ -57,7 +57,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
 
     @Override
     @Transactional
-    public Boolean setQuantityState(SetProductQuantityStateRequest request) {
+    public Boolean postSetQuantityState(SetProductQuantityStateRequest request) {
         log.info("Запрос на обновление остатка продукта с Id: {}", request.getProductId());
         UUID productId = request.getProductId();
         Product product = checkIdExistsOrThrow(productId);
@@ -76,7 +76,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
 
     @Override
     @Transactional
-    public Boolean deleteProduct(UUID productId) {
+    public Boolean postDeleteProduct(UUID productId) {
         log.info("Запрос на удаление продукта с Id: {}", productId);
         Product product = checkIdExistsOrThrow(productId);
         product.setProductState(ProductState.DEACTIVATE);

@@ -28,7 +28,7 @@ public class ShoppingCartController implements ShoppingCartFeignClient {
     @Override
     public ShoppingCartDto putProducts(
             @RequestParam String username,
-            @RequestBody Map<UUID, Integer> items) {
+            @RequestBody Map<UUID, Long> items) {
         return cartService.putProducts(username, items);
     }
 
@@ -38,7 +38,7 @@ public class ShoppingCartController implements ShoppingCartFeignClient {
     }
 
     @Override
-    public ShoppingCartDto deleteProducts(
+    public ShoppingCartDto postDeleteProducts(
             @RequestParam String username,
             @RequestBody List<UUID> productIds
     ) {
@@ -46,7 +46,7 @@ public class ShoppingCartController implements ShoppingCartFeignClient {
     }
 
     @Override
-    public ShoppingCartDto changeQuantity(
+    public ShoppingCartDto postChangeQuantity(
             @RequestParam String username,
             @Valid @RequestBody ChangeProductQuantityRequest changeQuantity
     ) {

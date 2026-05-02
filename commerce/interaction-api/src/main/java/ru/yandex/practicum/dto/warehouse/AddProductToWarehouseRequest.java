@@ -16,5 +16,5 @@ public class AddProductToWarehouseRequest {
     private UUID productId;
     @NotNull
     @Min(1)
-    private Integer quantity;
+    private Long quantity;
 }

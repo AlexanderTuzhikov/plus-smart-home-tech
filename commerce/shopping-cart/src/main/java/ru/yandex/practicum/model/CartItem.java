@@ -27,5 +27,5 @@ public class CartItem {
     private UUID productId;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private Long quantity;
 }

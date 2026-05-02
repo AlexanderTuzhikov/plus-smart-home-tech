@@ -9,13 +9,13 @@ import ru.yandex.practicum.dto.store.SetProductQuantityStateRequest;
 import java.util.UUID;
 
 public interface ShoppingStoreService {
-    ProductDto createProduct(ProductDto productDto);
+    ProductDto putProduct(ProductDto productDto);
 
-    ProductDto updateProduct(ProductDto productDto);
+    ProductDto postUpdateProduct(ProductDto productDto);
 
-    Boolean setQuantityState(SetProductQuantityStateRequest request);
+    Boolean postSetQuantityState(SetProductQuantityStateRequest request);
 
-    Boolean deleteProduct(UUID productId);
+    Boolean postDeleteProduct(UUID productId);
 
     ProductDto getProduct(UUID productId);
 
