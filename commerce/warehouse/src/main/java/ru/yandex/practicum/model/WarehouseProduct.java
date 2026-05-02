@@ -16,9 +16,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @Table(name = "warehouse_products", schema = "warehouse")
 public class WarehouseProduct {
 
@@ -28,7 +28,7 @@ public class WarehouseProduct {
 
     @Builder.Default
     @Column(name = "quantity", nullable = false)
-    private Integer quantity = 0;
+    private Long quantity = 0L;
 
     @Column(name = "weight", nullable = false, precision = 10, scale = 3)
     private BigDecimal weight;

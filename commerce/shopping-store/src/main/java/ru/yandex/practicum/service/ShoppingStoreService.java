@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface ShoppingStoreService {
     ProductDto createProduct(ProductDto productDto);
 
-    ProductDto updateProduct(ProductDto productDto);
+    ProductDto UpdateProduct(ProductDto productDto);
 
     Boolean setQuantityState(SetProductQuantityStateRequest request);
 

@@ -13,7 +13,7 @@ public interface WarehouseProductMapper {
     @Mapping(target = "width", source = "dimension.width")
     @Mapping(target = "height", source = "dimension.height")
     @Mapping(target = "depth", source = "dimension.depth")
-    @Mapping(target = "quantity", constant = "0")
+    @Mapping(target = "quantity", constant = "0L")
     @Mapping(target = "fragile", defaultValue = "false")
     WarehouseProduct toWarehouseProduct(NewProductInWarehouseRequest newProductInWarehouseRequest);
 

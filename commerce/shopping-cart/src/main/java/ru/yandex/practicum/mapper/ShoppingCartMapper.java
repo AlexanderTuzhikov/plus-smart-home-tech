@@ -13,11 +13,10 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ShoppingCartMapper {
-
     @Mapping(target = "products", source = "items")
     ShoppingCartDto toShoppingCartDto(ShoppingCart shoppingCart);
 
-    default Map<UUID, Integer> mapItems(List<CartItem> items) {
+    default Map<UUID, Long> mapItems(List<CartItem> items) {
         if (items == null) return Map.of();
 
         return items.stream()

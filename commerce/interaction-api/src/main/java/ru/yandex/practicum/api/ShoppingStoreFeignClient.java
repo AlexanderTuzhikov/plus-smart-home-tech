@@ -12,21 +12,21 @@ import java.util.UUID;
 
 @FeignClient(name = "shopping-store", path = "/api/v1/shopping-store")
 public interface ShoppingStoreFeignClient {
-    @GetMapping
-    Page<ProductDto> getProductsByCategory(@RequestParam("category") ProductCategory category, Pageable pageable);
+    @PutMapping
+    ProductDto putProduct(@RequestBody ProductDto productDto);
+
+    @PostMapping
+    ProductDto postUpdateProduct(@RequestBody ProductDto productDto);
+
+    @PostMapping("/quantityState")
+    Boolean postSetQuantityState(SetProductQuantityStateRequest request);
+
+    @PostMapping("/removeProductFromStore")
+    Boolean postDeleteProduct(@RequestBody UUID productId);
 
     @GetMapping("{productId}")
     ProductDto getProduct(@PathVariable("productId") UUID productId);
 
-    @PutMapping
-    ProductDto createProduct(@RequestBody ProductDto productDto);
-
-    @PostMapping
-    ProductDto updateProduct(@RequestBody ProductDto productDto);
-
-    @PostMapping("/removeProductFromStore")
-    Boolean deleteProduct(@RequestBody UUID productId);
-
-    @PostMapping("/quantityState")
-    Boolean setQuantityState(SetProductQuantityStateRequest request);
+    @GetMapping
+    Page<ProductDto> getProductsByCategory(@RequestParam("category") ProductCategory category, Pageable pageable);
 }

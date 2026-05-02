@@ -44,7 +44,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
 
     @Override
     @Transactional
-    public ProductDto updateProduct(ProductDto productDto) {
+    public ProductDto UpdateProduct(ProductDto productDto) {
         log.info("Запрос на обновление продукта с Id: {}", productDto.getProductId());
         UUID productId = productDto.getProductId();
         checkIdExistsOrThrow(productId);

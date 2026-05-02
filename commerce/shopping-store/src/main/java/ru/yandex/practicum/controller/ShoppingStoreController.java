@@ -22,22 +22,22 @@ public class ShoppingStoreController implements ShoppingStoreFeignClient {
     private final ShoppingStoreService storeService;
 
     @Override
-    public ProductDto createProduct(@Valid ProductDto productDto) {
+    public ProductDto putProduct(@Valid ProductDto productDto) {
        return storeService.createProduct(productDto);
     }
 
     @Override
-    public ProductDto updateProduct(@Valid ProductDto productDto) {
-        return storeService.updateProduct(productDto);
+    public ProductDto postUpdateProduct(@Valid ProductDto productDto) {
+        return storeService.UpdateProduct(productDto);
     }
 
     @Override
-    public Boolean setQuantityState(SetProductQuantityStateRequest setProductQuantityStateRequest) {
+    public Boolean postSetQuantityState(SetProductQuantityStateRequest setProductQuantityStateRequest) {
         return storeService.setQuantityState(setProductQuantityStateRequest);
     }
 
     @Override
-    public Boolean deleteProduct(@RequestBody UUID productId) {
+    public Boolean postDeleteProduct(@RequestBody UUID productId) {
         return storeService.deleteProduct(productId);
     }
 

@@ -17,9 +17,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository cartRepository;
     private final ShoppingCartMapper cartMapper;
@@ -38,7 +38,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     @Transactional
-    public ShoppingCartDto putProducts(String username, Map<UUID, Integer> products) {
+    public ShoppingCartDto putProducts(String username, Map<UUID, Long> products) {
         log.info("Запрос на добавление новых товаров в корзину пользователя: {}", username);
         usernameNotEmptyOrThrow(username);
 
@@ -52,9 +52,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         setProductsToCart(cart, products);
 
         try {
-            warehouseClient.checkAvailabilityForCart(cartMapper.toShoppingCartDto(cart));
+            warehouseClient.postCheckAvailabilityForCart(cartMapper.toShoppingCartDto(cart));
         } catch (ProductInShoppingCartLowQuantityInWarehouseException e) {
-            // Пробрасываем бизнес-исключение как есть
             throw e;
         } catch (Exception ex) {
             throw new RuntimeException(
@@ -106,7 +105,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         usernameNotEmptyOrThrow(username);
         ShoppingCart cart = getActiveCartOrThrow(username);
         UUID productId = changeQuantity.getProductId();
-        Integer newQuantity = changeQuantity.getNewQuantity();
+        Long newQuantity = changeQuantity.getNewQuantity();
 
         if (newQuantity == null || newQuantity <= 0) {
             throw new ValidateException("Некорректное количество товара: " + newQuantity);
@@ -122,7 +121,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         existingItemOpt.get().setQuantity(newQuantity);
         ShoppingCartDto shoppingCartDto = cartMapper.toShoppingCartDto(cart);
-        warehouseClient.checkAvailabilityForCart(shoppingCartDto);
+        warehouseClient.postCheckAvailabilityForCart(shoppingCartDto);
 
         return shoppingCartDto;
     }
@@ -136,13 +135,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .build();
     }
 
-    private void setProductsToCart(ShoppingCart cart, Map<UUID, Integer> products) {
+    private void setProductsToCart(ShoppingCart cart, Map<UUID, Long> products) {
         Map<UUID, CartItem> existingItems = cart.getItems().stream()
                 .collect(Collectors.toMap(CartItem::getProductId, Function.identity()));
 
-        for (Map.Entry<UUID, Integer> entry : products.entrySet()) {
+        for (Map.Entry<UUID, Long> entry : products.entrySet()) {
             UUID productId = entry.getKey();
-            Integer quantity = entry.getValue();
+            Long quantity = entry.getValue();
 
             if (quantity == null || quantity <= 0) {
                 throw new ValidateException("Количество продукта " + productId + " = " + quantity);

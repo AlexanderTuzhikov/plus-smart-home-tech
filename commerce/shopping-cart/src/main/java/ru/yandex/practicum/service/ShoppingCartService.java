@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface ShoppingCartService {
     ShoppingCartDto getActiveCart(String username);
 
-    ShoppingCartDto putProducts(String username, Map<UUID, Integer> products);
+    ShoppingCartDto putProducts(String username, Map<UUID, Long> products);
 
     Boolean deleteCart(String username);
 
