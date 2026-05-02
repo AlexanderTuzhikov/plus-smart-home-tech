@@ -35,7 +35,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     @Transactional
-    public void putProduct(NewProductInWarehouseRequest newProduct) {
+    public void createProduct(NewProductInWarehouseRequest newProduct) {
         log.info("Запрос на добавление нового товара на склад: {}", newProduct);
 
         if (warehouseRepository.existsById(newProduct.getProductId())) {
@@ -51,14 +51,14 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     @Transactional(readOnly = true)
-    public BookedProductsDto postCheckAvailabilityForCart(ShoppingCartDto shoppingCartDto) {
+    public BookedProductsDto checkAvailabilityForCart(ShoppingCartDto shoppingCartDto) {
         log.info("Проверка количества товаров для корзины {}", shoppingCartDto.getShoppingCartId());
         return checkAvailabilityForProductsMap(shoppingCartDto.getProducts());
     }
 
     @Override
     @Transactional
-    public void postAddProductQuantity(AddProductToWarehouseRequest addProductDto) {
+    public void addProductQuantity(AddProductToWarehouseRequest addProductDto) {
         log.info("Запрос на обновление количества товара на склад: {}", addProductDto);
         UUID productId = addProductDto.getProductId();
         validateQuantity(addProductDto.getQuantity());

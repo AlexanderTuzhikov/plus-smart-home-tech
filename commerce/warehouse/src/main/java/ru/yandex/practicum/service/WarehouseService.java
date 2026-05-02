@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface WarehouseService {
-    void putProduct(NewProductInWarehouseRequest newProduct);
+    void createProduct(NewProductInWarehouseRequest newProduct);
 
-    BookedProductsDto postCheckAvailabilityForCart(ShoppingCartDto shoppingCartDto);
+    BookedProductsDto checkAvailabilityForCart(ShoppingCartDto shoppingCartDto);
 
-    void postAddProductQuantity(AddProductToWarehouseRequest addProductDto);
+    void addProductQuantity(AddProductToWarehouseRequest addProductDto);
 
     AddressDto getWarehouseAddress();
 

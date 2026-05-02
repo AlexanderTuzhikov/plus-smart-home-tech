@@ -43,8 +43,6 @@ public class DeliveryController implements DeliveryFeignClient {
 
     @Override
     public BigDecimal postDeliveryCost(@RequestBody @Valid OrderDto orderDto) {
-        BigDecimal deliveryCost = deliveryService.getDeliveryCost(orderDto);
-        log.info("Стоимость доставки заказа {}", deliveryCost);
-        return deliveryCost;
+        return deliveryService.getDeliveryCost(orderDto);
     }
 }

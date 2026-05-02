@@ -27,17 +27,17 @@ public class WarehouseController implements WarehouseFeighClient {
 
     @Override
     public void putProduct(@Valid @RequestBody NewProductInWarehouseRequest newProduct) {
-        warehouseService.putProduct(newProduct);
+        warehouseService.createProduct(newProduct);
     }
 
     @Override
     public BookedProductsDto postCheckAvailabilityForCart(@Valid @RequestBody ShoppingCartDto shoppingCartDto) {
-        return warehouseService.postCheckAvailabilityForCart(shoppingCartDto);
+        return warehouseService.checkAvailabilityForCart(shoppingCartDto);
     }
 
     @Override
     public void postAddProductQuantity(@Valid @RequestBody AddProductToWarehouseRequest addProductDto) {
-        warehouseService.postAddProductQuantity(addProductDto);
+        warehouseService.addProductQuantity(addProductDto);
     }
 
     @Override

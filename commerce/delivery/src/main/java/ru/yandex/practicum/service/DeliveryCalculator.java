@@ -28,7 +28,6 @@ public class DeliveryCalculator {
     }
 
     private BigDecimal applyWarehouseCoefficient(BigDecimal cost, AddressDto warehouse) {
-
         BigDecimal coef = BigDecimal.ZERO;
 
         if (isWarehouseAddressContains(warehouse, "ADDRESS_1")) {
